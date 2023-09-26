@@ -8,7 +8,17 @@ function StartState:update(dt)
 	--if the up or down button was pressed, then set highlighted to 2 if it's one, or otherwise set it to 1
 	if love.keyboard.wasPressed('up') or love.keyboard.wasPressed('down') then
 		highlighted = highlighted == 1 and 2 or 1
+		--gSounds.select:stop() added this line because if you swapped options too fast you didn't get the sound, but it made pops. need a shorter sound file.
 		gSounds.select:play()
+	end
+
+	--start the game if you press enter on start game
+	if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
+		gSounds.confirm:play()
+
+		if highlighted ==  1 then
+			gStateMachine:change('play')
+		end
 	end
 
 	--exit the game at the startstate if escape is pressed (it's typically a back action elsewhere)

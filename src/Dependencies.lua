@@ -13,11 +13,15 @@ Class = require 'lib/class'
 --store and reference for constant values that apply across multiple aspects of our game
 require 'src/constants'
 
+--the functions that control the player's paddle
+require 'src/Paddle'
 
 --basic state machine class that allows more established transitions between game states
 --reduces code bloat
 require 'src/StateMachine'
 
+--utility usage; organizing and defining quads, different colors, sidez and colorways
+require 'src/Util'
 
 
 --individual states available to our game currently
@@ -25,3 +29,4 @@ require 'src/StateMachine'
 --that can be called upon limiting processing and code
 require 'src/states/BaseState'
 require 'src/states/StartState'
+require 'src/states/PlayState'

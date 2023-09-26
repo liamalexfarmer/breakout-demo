@@ -24,6 +24,10 @@ function love.load()
 		['particle'] = love.graphics.newImage('graphics/particle.png')
 	}
 
+	gFrames = {
+		['paddles'] = GenerateQuadsPaddles(gTextures.main)
+	}
+
 	push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
 		vsync = true,
 		fullscreen = false,
@@ -51,7 +55,8 @@ function love.load()
 	}
 
 	gStateMachine = StateMachine {
-		['start'] = function() return StartState() end
+		['start'] = function() return StartState() end,
+		['play'] = function() return PlayState() end
 	}
 
 	gStateMachine:change('start')
