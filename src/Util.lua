@@ -95,5 +95,37 @@ function GenerateQuadsPaddles(atlas)
 	return quads
 end
 
+--[[
+	Generating quads for the different skins the player can choose for the ball.
+	There are two rows at starting at 96, 48, but the first row has four options and the second only three,
+	So there must be two seperate for loops to account for them all.
+]]
+
+function GenerateQuadsBall(atlas)
+	local x = 96
+	local y = 48
+
+	local counter = 1
+	local quads = {}
+
+	for i = 0, 3 do
+		quads[counter] = love.graphics.newQuad(x, y, 8, 8, atlas:getDimensions())
+		x = x + 8
+		counter = counter + 1
+	end
+
+	x = 96
+	y = 56
+
+	for i = 0, 2 do
+		quads[counter] = love.graphics.newQuad(x, y, 8, 8, atlas:getDimensions())
+		x = x + 8
+		counter = counter + 1
+	end
+
+	return quads
+
+end
+
 
 

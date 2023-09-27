@@ -16,6 +16,9 @@ require 'src/constants'
 --the functions that control the player's paddle
 require 'src/Paddle'
 
+--the functions that govern the ball in the game
+require 'src/Ball'
+
 --basic state machine class that allows more established transitions between game states
 --reduces code bloat
 require 'src/StateMachine'

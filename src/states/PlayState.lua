@@ -10,6 +10,18 @@ PlayState = Class{__includes = BaseState}
 
 function PlayState:init()
 	self.paddle = Paddle()
+
+	--initialize the ball with a random skin option
+	self.ball = Ball(math.random(7))
+
+	--starting velocity for the ball
+	self.ball.dx = math.random(-200, 200)
+	self.ball.dy = math.random(-50, 60)
+
+	--init the ball in the center
+	self.ball.x = VIRTUAL_WIDTH / 2 - 4
+	self.ball.y = VIRTUAL_HEIGHT / 2 - 4
+
 	self.paused = false
 end
 
@@ -30,6 +42,15 @@ function PlayState:update(dt)
 	end
 
 	self.paddle:update(dt)
+	self.ball:update(dt)
+
+	if self.ball:collides(self.paddle) then
+		--reset y position to make a collision FALSE (addressed in wall collision code comments more deeply)
+		self.ball.y = self.paddle.y - 8
+		--reverse y direction
+		self.ball.dy = -self.ball.dy
+		gSounds.paddleHit:play()
+	end
 
 	if love.keyboard.wasPressed('escape') then
 		love.event.quit()
@@ -40,6 +61,7 @@ end
 function PlayState:render()
 
 	self.paddle:render()
+	self.ball:render()
 
 	if self.paused then
 		love.graphics.setFont(gFonts.large)
