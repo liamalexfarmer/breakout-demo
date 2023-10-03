@@ -20,9 +20,13 @@ function PlayState:init()
 
 	--init the ball in the center
 	self.ball.x = VIRTUAL_WIDTH / 2 - 4
-	self.ball.y = VIRTUAL_HEIGHT / 2 - 4
+	self.ball.y = VIRTUAL_HEIGHT - 42
 
+	--establishing the pause state as false until otherwise instantiated
 	self.paused = false
+
+	--map creation function
+	self.bricks = LevelMaker.createMap()
 end
 
 function PlayState:update(dt)
@@ -49,8 +53,22 @@ function PlayState:update(dt)
 		self.ball.y = self.paddle.y - 8
 		--reverse y direction
 		self.ball.dy = -self.ball.dy
+
+		
 		gSounds.paddleHit:play()
 	end
+
+	--collision for all bricks with regard to the ball
+	for k, brick in pairs(self.bricks) do
+
+		--only care about collision for bricks in play
+		if brick.inPlay and self.ball:collides(brick) then
+
+			--trigger a collision
+			brick:hit()
+		end
+	end
+
 
 	if love.keyboard.wasPressed('escape') then
 		love.event.quit()
@@ -59,6 +77,10 @@ function PlayState:update(dt)
 end
 
 function PlayState:render()
+
+	for k, bricks in pairs(self.bricks) do
+		bricks:render()
+	end
 
 	self.paddle:render()
 	self.ball:render()

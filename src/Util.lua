@@ -127,5 +127,19 @@ function GenerateQuadsBall(atlas)
 
 end
 
+--[[
+	This function is used to extract bricks from the sprite sheet. 
+	Since we only require a subsection of the sprite sheet, we must generate a subset of GenerateQuads.
+	As per comments above, another option for this SHOULD be:
+
+	table.unpack(GenerateQuads(atlas, 32, 16), 1, 21, 1)
+
+	something to potentially experiment later to remove the need to define the function table.slice
+]]
+
+function GenerateQuadsBricks(atlas)
+	return table.slice(GenerateQuads(atlas, 32, 16), 1, 21)
+end
+
 
 

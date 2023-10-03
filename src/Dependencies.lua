@@ -19,9 +19,15 @@ require 'src/Paddle'
 --the functions that govern the ball in the game
 require 'src/Ball'
 
+--the functions that govern the bricks in the game
+require 'src/Brick'
+
 --basic state machine class that allows more established transitions between game states
 --reduces code bloat
 require 'src/StateMachine'
+
+--levelmaker for the game that distributes bricks based on other progression factors
+require 'src/LevelMaker'
 
 --utility usage; organizing and defining quads, different colors, sidez and colorways
 require 'src/Util'
