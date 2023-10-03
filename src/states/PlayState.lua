@@ -96,21 +96,25 @@ function PlayState:update(dt)
 			--uses velocity as a check for whether collision could/may occur on a specific brick edge
 			--defining the brick edge where collision occurs is necessary for determining the reflection pattern of the ball
 
-			if self.ball.x + 1 < brick.x and self.ball.dx > 0 then
+			if self.ball.x + 2 < brick.x and self.ball.dx > 0 then
 				self.ball.dx = -self.ball.dx
 				self.ball.x = brick.x - 8
 
-			elseif self.ball.x + 7 > brick.x + brick.width and self.ball.dx < 0 then
-				self.ball.dx = self.ball.dx
+			elseif self.ball.x + 6 > brick.x + brick.width and self.ball.dx < 0 then
+
+				self.ball.dx = -self.ball.dx
 				self.ball.x = brick.x + brick.width
 
-			elseif self.ball.y < brick.y then
+			elseif self.ball.y < brick.y and self.ball.dy > 0 then
 
 				self.ball.dy = -self.ball.dy
 				self.ball.y = brick.y - 8
+
 			else
+
 				self.ball.dy = -self.ball.dy
 				self.ball.y = brick.y + 16
+				
 			end
 
 			--make the ball go slightly faster
