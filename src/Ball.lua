@@ -18,6 +18,8 @@ function Ball:init(skin)
 	self.dy = 0
 
 	self.skin = skin
+	self.xi = 0
+	self.yi = 0
 
 end
 

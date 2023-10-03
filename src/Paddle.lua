@@ -10,8 +10,8 @@ Skindsfor the paddle will be available for the player can choose before playing.
 
 Paddle = Class{}
 
-function Paddle:init()
-	self.skin = 1
+function Paddle:init(skin)
+	self.skin = skin
 
 	self.size = 2
 
