@@ -87,7 +87,7 @@ function PlayState:update(dt)
 		if brick.inPlay and self.ball:collides(brick) then
 
 			--add to your score
-			self.score = self.score + 10
+			self.score = self.score + (brick.tier * 200 + brick.color * 25)
 
 			--trigger a collision
 			brick:hit()
@@ -114,7 +114,7 @@ function PlayState:update(dt)
 
 				self.ball.dy = -self.ball.dy
 				self.ball.y = brick.y + 16
-				
+
 			end
 
 			--make the ball go slightly faster
@@ -144,6 +144,11 @@ function PlayState:update(dt)
 		end
 	end
 
+	--for updating rendered particle systems--doesn't animate without this
+	for k, brick in pairs(self.bricks) do
+		brick:update(dt)
+	end
+
 
 	if love.keyboard.wasPressed('escape') then
 		love.event.quit()
@@ -155,6 +160,10 @@ function PlayState:render()
 
 	for k, bricks in pairs(self.bricks) do
 		bricks:render()
+	end
+
+	for k, bricks in pairs(self.bricks) do
+		bricks:renderParticles()
 	end
 
 	self.paddle:render()
