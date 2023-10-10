@@ -61,7 +61,7 @@ function Brick:init(x, y)
 	self.pSystem:setParticleLifetime(1, 1)
 
 	--x and y acceleration ranges (xmin, ymin, xmax, ymax)
-	self.pSystem:setLinearAcceleration(-15, 0, 15, 80)
+	self.pSystem:setLinearAcceleration(-15, 0, 15, 160)
 
 	--particle emission behavior
 	self.pSystem:setEmissionArea('normal', 10, 10)

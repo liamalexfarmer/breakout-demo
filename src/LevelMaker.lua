@@ -34,24 +34,28 @@ function LevelMaker.createMap(level)
 	local bricks = {}
 
 	--choose a random number of rows
-	local numRows = math.random(1,5)
+	local numRows = level % 5 + 1
 
 	--choose a random number of columns
-	local numCols = math.random(7, 13)
+	local numCols = 7 + (level - 1 % 5)
 
 	numCols = numCols % 2 == 0 and numCols + 1 or numCols
 
 	--highest possible brick color; do not exceed 3
-	local highestTier = math.min(3, math.floor(level / 5))
+	local highestTier = math.floor(level / 5) % 5
 
 	-- highest color of the highest tier
-	local highestColor = math.min(5, level % 5 + 3)
+	local highestColor = math.min(level % 5)
 
 	--how to lay out the bricks to fill the space and not overlap
 	for y = 1, numRows do
 
 		--is skipping enabled for this row
-		local skipPattern = math.random(1, 2) == 1 and true or false
+		if level % 5 ~= 1 then
+			local skipPattern = math.random(1, 2) == 1 and true or false
+		else 
+			local skipPattern = false
+		end
 
 		--is alternating colors enables
 		local alternatePattern = math.random(1, 2) == 1 and true or false

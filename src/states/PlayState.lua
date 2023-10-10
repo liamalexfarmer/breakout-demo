@@ -14,6 +14,7 @@ function PlayState:enter(params)
 	self.bricks = params.bricks
 	self.health = params.health
 	self.score = params.score
+	self.level = params.level
 
 	self.paused = false
 
@@ -92,6 +93,19 @@ function PlayState:update(dt)
 			--trigger a collision
 			brick:hit()
 
+			if self:checkVictory() then
+				gSounds.victory:play()
+
+				gStateMachine:change('victory', {
+				paddle = self.paddle,
+				ball = self.ball,
+				health = self.health,
+				score = self.score,
+				level = self.level
+				})
+			end
+
+
 			--code that handles brick collisions
 			--uses velocity as a check for whether collision could/may occur on a specific brick edge
 			--defining the brick edge where collision occurs is necessary for determining the reflection pattern of the ball
@@ -139,7 +153,8 @@ function PlayState:update(dt)
 				paddle = self.paddle,
 				bricks = self.bricks,
 				health = self.health,
-				score = self.score
+				score = self.score,
+				level = self.level
 			})
 		end
 	end
@@ -176,4 +191,14 @@ function PlayState:render()
 		love.graphics.setFont(gFonts.large)
 		love.graphics.printf("PAUSED", 0, VIRTUAL_HEIGHT / 2 - 16, VIRTUAL_WIDTH, 'center')
 	end
+end
+
+function PlayState:checkVictory()
+	for k, brick in pairs(self.bricks) do
+		if brick.inPlay then
+			return false
+		end
+	end
+
+	return true
 end
