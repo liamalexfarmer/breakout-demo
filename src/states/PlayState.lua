@@ -16,6 +16,7 @@ function PlayState:enter(params)
 	self.score = params.score
 	self.level = params.level
 	self.highScores = params.highScores
+	self.recoverPoints = params.recoverPoints
 
 	self.paused = false
 
@@ -94,6 +95,17 @@ function PlayState:update(dt)
 			--trigger a collision
 			brick:hit()
 
+			--if your score exeeds the recover points
+			if self.score > self.recoverPoints then
+				--set your health to the smaller value between 3 (max hp) and current hp + 1
+				self.health = math.min(3, self.health + 1)
+
+				--double the recovery point threshhold
+				self.recoverPoints = self.recoverPoints * 2
+
+				gSounds.recover:play()
+			end
+
 			if self:checkVictory() then
 				gSounds.victory:play()
 
@@ -103,7 +115,8 @@ function PlayState:update(dt)
 				health = self.health,
 				score = self.score,
 				level = self.level,
-				highScores = self.highScores
+				highScores = self.highScores,
+				recoverPoints = self.recoverPoints
 				})
 			end
 
@@ -158,7 +171,8 @@ function PlayState:update(dt)
 				health = self.health,
 				score = self.score,
 				level = self.level,
-				highScores = self.highScores
+				highScores = self.highScores,
+				recoverPoints = self.recoverPoints
 			})
 		end
 	end

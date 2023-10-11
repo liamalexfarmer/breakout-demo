@@ -37,7 +37,7 @@ function LevelMaker.createMap(level)
 	local numRows = level % 5 + 1
 
 	--choose a random number of columns
-	local numCols = 7 + (level - 1 % 5)
+	local numCols = 7 + (level - 1) % 5
 
 	numCols = numCols % 2 == 0 and numCols + 1 or numCols
 
@@ -51,13 +51,9 @@ function LevelMaker.createMap(level)
 	for y = 1, numRows do
 
 		--is skipping enabled for this row
-		if level % 5 ~= 1 then
-			local skipPattern = math.random(1, 2) == 1 and true or false
-		else 
-			local skipPattern = false
-		end
+		local skipPattern = math.random(1, 2) == 1 and true or false
 
-		--is alternating colors enables
+		--is alternating colors enabled
 		local alternatePattern = math.random(1, 2) == 1 and true or false
 
 		--choosing two colors to alternate

@@ -10,3 +10,6 @@ VIRTUAL_HEIGHT = 243
 
 --defining a speed for the paddle to move when controlled by the player
 PADDLE_SPEED = 180
+
+--definine base recovery points
+BASE_RECOVERY = 5000
