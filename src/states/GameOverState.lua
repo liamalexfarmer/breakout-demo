@@ -10,11 +10,38 @@ GameOverState = Class{__includes = BaseState}
 
 function GameOverState:enter( params )
 	self.score = params.score
+	self.highScores = params.highScores
 end
 
 function GameOverState:update( dt )
 	if love.keyboard.wasPressed('enter') or love.keyboard.wasPressed('return') then
-		gStateMachine:change('start')
+		--create variables to see if any high score is achieved
+		local highScore = false
+		--and where in the index it belongs
+		local scoreIndex = 11
+
+		for i = 10, 1, -1 do
+			local score = self.highScores[i].score or 0
+			if self.score > score then
+				highScoreIndex = i
+				highScore = true
+			end
+		end
+
+		if highScore then
+			gSounds.highScore:play()
+			gStateMachine:change('enterHighScore', {
+				highScores = self.highScores,
+				score = self.score,
+				scoreIndex = highScoreIndex
+			})
+		else
+
+			gStateMachine:change('start', {
+				highScores = self.highScores
+			})
+		end
+
 	end
 
 	if love.keyboard.wasPressed('escape') then

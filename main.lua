@@ -63,9 +63,13 @@ function love.load()
 		['serve'] = function() return ServeState() end,
 		['gameOver'] = function() return GameOverState() end,
 		['victory'] = function() return VictoryState() end,
+		['highScore'] = function() return HighScoreState() end,
+		['enterHighScore'] = function() return EnterHighScoreState() end
 	}
 
-	gStateMachine:change('start')
+	gStateMachine:change('start', {
+		highScores = loadHighScores()
+	})
 
 	love.keyboard.keysPressed = {}
 
@@ -114,6 +118,48 @@ function love.draw()
 
 		push:apply('end')
 end
+
+function loadHighScores(  )
+	love.filesystem.setIdentity('breakout')
+
+	if not love.filesystem.getInfo('breakout.lst') then
+		local scores = ''
+		for i = 10, 1, -1 do
+			scores = scores .. "LAF\n"
+			scores = scores .. tostring(i * 1000) .. '\n'
+		end
+
+		love.filesystem.write('breakout.lst', scores)
+	end
+
+	local name = true
+	local currentName = nil
+	local counter = 1
+
+	local scores = {}
+
+	for i = 1, 10 do
+		scores[i] = {
+			name = nil,
+			score = nil
+		}
+	end
+
+	for line in love.filesystem.lines('breakout.lst') do
+		if name then 
+			scores[counter].name = string.sub(line, 1, 3)
+		else
+			scores[counter].score = tonumber(line)
+			counter = counter + 1
+		end
+
+		name = not name
+
+	end
+
+	return scores
+end
+
 
 function renderHealth( health )
 	-- used to help render hearts to be adjacent on screen

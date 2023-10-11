@@ -12,6 +12,7 @@ function ServeState:enter(params)
 	self.health = params.health
 	self.score = params.score
 	self.level = params.level
+	self.highScores = params.highScores
 
 	--generate a new ball
 	self.ball = Ball()
@@ -34,7 +35,8 @@ function ServeState:update(dt)
 			health = self.health,
 			score = self.score,
 			ball = self.ball,
-			level = self.level
+			level = self.level,
+			highScores = self.highScores
 		})
 	end
 
