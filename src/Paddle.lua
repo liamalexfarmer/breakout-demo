@@ -44,6 +44,8 @@ function Paddle:update(dt)
 	else
 		self.x = math.min(VIRTUAL_WIDTH - self.width, self.x + self.dx * dt)
 	end
+
+	self.width = self.size * 32
 end
 
 --render the paddle in it's calculated position, using the correct quad based on skin selection and size

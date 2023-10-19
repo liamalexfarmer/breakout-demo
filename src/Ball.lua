@@ -18,8 +18,14 @@ function Ball:init(skin)
 	self.dy = 0
 
 	self.skin = skin
-	self.xi = 0
-	self.yi = 0
+
+	self.live = true
+
+	if skin == 6 then
+		self.main = false
+	else
+		self.main = true
+	end
 
 end
 
@@ -64,7 +70,26 @@ end
 
 --[[
 	Definintions for how the ball behaves as time passes in the game, and in reaction to occurences such as collisions.
+	Notes for myself:
+	Usually while loops have crashed for me in the past, but using a for loop here either crashed the game or spawned 1 ball.
+	Wasted a lot of time trying to pass the table back and forth to iterate over it like I did for the powerups.
+	Rather than doing tabl = Ball:spawn(tabl, x, y amt) which crashed the game, the solution was so much simpler in just
+	that triggering the Ball:spawn function is sufficient so long as I do the table iterations in that function.
+	Might indicate that I can simplify the power-up spawns as well.
 ]]
+
+function Ball:spawn( tabl, x, y, amt )
+		count = amt
+		while count > 0 do
+			b = Ball(6)
+			b.x = x
+			b.y = y - b.height
+			b.dx = math.random(-200, 200)
+			b.dy = -100
+			table.insert(tabl, b)
+			count = count - 1
+		end
+end
 
 function Ball:update(dt)
 	--accounting for the movement of the ball as a function of velocity over time

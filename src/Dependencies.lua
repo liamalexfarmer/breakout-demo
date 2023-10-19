@@ -32,6 +32,8 @@ require 'src/LevelMaker'
 --utility usage; organizing and defining quads, different colors, sidez and colorways
 require 'src/Util'
 
+--powerups class 
+require 'src/PowerUps'
 
 --individual states available to our game currently
 --each state has enter, exit, update, and render functions

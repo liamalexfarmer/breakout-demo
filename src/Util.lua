@@ -82,7 +82,7 @@ function GenerateQuadsPaddles(atlas)
 		counter = counter + 1
 
 		--needlessly large paddle
-		quads[counter] = love.graphics.newQuad(x, y, 128, 16, atlas:getDimensions())
+		quads[counter] = love.graphics.newQuad(x, y + 16, 128, 16, atlas:getDimensions())
 		counter = counter + 1
 
 
@@ -90,7 +90,7 @@ function GenerateQuadsPaddles(atlas)
 		x = 0
 
 		y = y + 32
-	end
+	end 
 
 	return quads
 end
@@ -138,7 +138,33 @@ end
 ]]
 
 function GenerateQuadsBricks(atlas)
-	return table.slice(GenerateQuads(atlas, 32, 16), 1, 21)
+
+	bricks = table.slice(GenerateQuads(atlas, 32, 16), 1, 21)
+	keyBrick = love.graphics.newQuad(160, 48, 32, 16, atlas)
+	table.insert(bricks, 22, keyBrick)
+
+	return bricks
+end
+
+--[[
+	A function to extract the powerup graphics from the sprite sheet.
+]]
+
+function GenerateQuadsPower(atlas)
+	local x = 0
+	local y = 192
+
+	local counter = 1
+	local quads = {}
+
+	for i = 0, 10 do
+		quads[counter] = love.graphics.newQuad(x, y, 16, 16, atlas:getDimensions())
+		x = x + 16
+		counter = counter + 1
+	end
+
+	return quads
+
 end
 
 

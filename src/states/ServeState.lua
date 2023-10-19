@@ -17,7 +17,8 @@ function ServeState:enter(params)
 
 	--generate a new ball
 	self.ball = Ball()
-	self.ball.skin = math.random(7)
+	self.ball.skin = math.random(7) ~= 6 and self.ball.skin or 7
+	--reserving the gray ball for powerups
 	--pause
 end
 

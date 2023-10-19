@@ -12,4 +12,4 @@ VIRTUAL_HEIGHT = 243
 PADDLE_SPEED = 180
 
 --definine base recovery points
-BASE_RECOVERY = 5000
+BASE_RECOVERY = 1000

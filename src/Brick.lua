@@ -36,6 +36,11 @@ paletteColors = {
         ['r'] = 251,
         ['g'] = 242,
         ['b'] = 54
+    },
+    [6] = {
+    	['r'] = 105,
+    	['g'] = 105,
+    	['b'] = 105
     }
 }
 
@@ -65,6 +70,10 @@ function Brick:init(x, y)
 
 	--particle emission behavior
 	self.pSystem:setEmissionArea('normal', 10, 10)
+
+	--used for lock and key function
+	self.locked = false
+	self.key = false
 end
 
 --function used to define a hit on the brick by the ball
@@ -94,6 +103,10 @@ function Brick:hit()
 		if self.color == 1 then
 			self.tier = self.tier - 1
 			self.color = 5
+		elseif self.color == 6 then
+			if self.tier == 0 then
+				self.color = self.color - 1
+			end
 		else
 			self.color = self.color - 1
 		end

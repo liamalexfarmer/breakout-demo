@@ -45,7 +45,12 @@ function LevelMaker.createMap(level)
 	local highestTier = math.floor(level / 5) % 5
 
 	-- highest color of the highest tier
-	local highestColor = math.min(level % 5)
+	local highestColor = math.min(1, 1 + level % 5)
+
+	local keyFlag = true
+	local keyBrick = nil
+	locked = false
+
 
 	--how to lay out the bricks to fill the space and not overlap
 	for y = 1, numRows do
@@ -61,7 +66,7 @@ function LevelMaker.createMap(level)
 		local alternateColor2 = math.random(1, highestColor)
 
 		local alternateTier1 = math.random(0, highestTier)
-		local alternateTier2 = math.random(0, highestTier)
+		local alternateTier2 = math.random(1, highestTier)
 
 		--used to skip a block for a skip patterns
 		local skipFlag = math.random(2) == 1 and true or false
@@ -72,6 +77,7 @@ function LevelMaker.createMap(level)
 		--solid color used if not alternating
 		local solidColor = math.random(1, highestColor)
 		local solidTier = math.random(1, highestTier)
+
 
 
 
@@ -113,7 +119,20 @@ function LevelMaker.createMap(level)
 				b.tier = solidTier
 			end
 
-			table.insert(bricks, b)
+			if keyFlag and math.random(1, 6) == 6 then
+				b.color = 6
+				b.tier = 1
+				b.locked = true
+				keyFlag = false
+				locked = true
+				keyBrick = x * y
+			end
+
+			if locked then
+				b.key = math.random(1, 2) == 1 and true or false
+			end
+
+			table.insert(bricks, x * y, b)
 
 			::continue::
 
@@ -125,6 +144,22 @@ function LevelMaker.createMap(level)
 	if #bricks == 0 then
 		return self.createMap(level)
 	else
+		--[[
+		if locked == true then
+			local brickAmt = #bricks
+			local keyN = math.random(1, brickAmt)
+			if keyN == keyBrick then
+				keyN = keyBrick + math.random(1, brickAmt - keyBrick) - 1
+			end
+
+			for i, brick in ipairs(bricks) do
+				if i == keyN then
+					brick.key = true
+				end
+			end
+		end
+		]]
+
 		return bricks
 	end
 
