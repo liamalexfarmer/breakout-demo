@@ -49,7 +49,10 @@ function LevelMaker.createMap(level)
 
 	local keyFlag = true
 	local keyBrick = nil
-	locked = false
+
+	local index = 1
+
+	local locked = false
 
 
 	--how to lay out the bricks to fill the space and not overlap
@@ -132,7 +135,11 @@ function LevelMaker.createMap(level)
 				b.key = math.random(1, 2) == 1 and true or false
 			end
 
-			table.insert(bricks, x * y, b)
+			table.insert(bricks, index, b)
+
+			--this index was added in order to iterate over the bricks easier and ensure numerical key
+			--used elsewhere to scan tables for locked bricks or bricks containing keys
+			index = index + 1
 
 			::continue::
 

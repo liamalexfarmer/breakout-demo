@@ -142,3 +142,21 @@ function Brick:renderParticles( )
 	love.graphics.draw(self.pSystem, self.x + 16, self.y + 8)
 end
 
+
+--function searches through the table of bricks and determines whether there is a locked brick
+--used to prevent key powerups from bricks containing them if there is no key brick to unlock
+function Brick:containsLock( table )
+	local i = 1
+	local contains = false
+	local brickAmt = #table
+	repeat
+		if (table[i].locked == true) then 
+			contains = true
+		end
+
+		i = i + 1
+
+	until i == brickAmt
+
+	return contains
+end

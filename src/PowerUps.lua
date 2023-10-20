@@ -7,6 +7,21 @@
 
 PowerUps = Class{}
 
+local powerDice = {
+	1,
+	1,
+	1,
+	1,
+	1,
+	1,
+	2,
+	2,
+	2,
+	2,
+	3,
+	3
+}
+
 function PowerUps:init(x, y, type)
 	self.x = x
 	self.y = y
@@ -55,7 +70,7 @@ end
 function PowerUps:spawn( powers )
 
 		
-	p = PowerUps(math.random(VIRTUAL_WIDTH / 8, 7 * VIRTUAL_WIDTH / 8), 0, math.random(1, 3))
+	p = PowerUps(math.random(VIRTUAL_WIDTH / 8, 7 * VIRTUAL_WIDTH / 8), 0, powerDice[math.random(1, 12)])
 
 	table.insert(powers, p)
 

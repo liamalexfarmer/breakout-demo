@@ -104,8 +104,10 @@ function PlayState:update(dt)
 				--trigger a collision
 				brick:hit()
 
+				--logic that spawns a key when you destroy a brick containing one
+				--ONLY spawns if there is an actually locked brick still remaining
 				if brick.key == true and brick.inPlay == false then
-					if locked then
+					if Brick:containsLock( self.bricks ) then
 						PowerUps:keySpawn(self.power, brick)
 					end
 				end
@@ -122,7 +124,6 @@ function PlayState:update(dt)
 
 					self.power = PowerUps:spawn(self.power)
 
-					self.paddle.size = math.min(4, self.paddle.size + 1) 
 				end
 
 				if self:checkVictory() then
@@ -180,6 +181,8 @@ function PlayState:update(dt)
 			table.remove(self.ball, i)
 		elseif balls.y >= VIRTUAL_HEIGHT and i == 1 then
 			self.health = self.health - 1
+			self.paddle = math.max(1, self.paddle - 1)
+
 			gSounds.hurt:play()
 
 			if self.health == 0 then
@@ -216,11 +219,16 @@ function PlayState:update(dt)
 					Ball:spawn(self.ball, powers.x, powers.y, 1 + powers.type)
 
 					gSounds.confirm:play()
+					--a flag that prompts it's removal from the powers table on next update
+					--smoother functionality than having everything in-line
 					powers.live = false
 					
 				elseif powers.type == 3 then
 					self.health = 3
+					self.paddle.size = math.min(4, self.paddle.size + 1) 
+
 					gSounds.recover:play()
+
 					powers.live = false
 
 				elseif powers.type == 10 then
@@ -237,7 +245,6 @@ function PlayState:update(dt)
 						end
 					end
 				else
-					--table.remove(self.power, v)
 					powers.live = false
 				end
 			end
@@ -250,16 +257,16 @@ function PlayState:update(dt)
 		brick:update(dt)
 	end
 
-	--if self.power then
-		for k, powers in pairs(self.power) do
-			powers:update(dt)
 
-			if powers.y > (VIRTUAL_HEIGHT + powers.height) then
-				powers.live = false
-				--table.remove(self.power, k)
-			end
+	for k, powers in pairs(self.power) do
+		powers:update(dt)
+		--if a power is more than it's height below the bottom edge of the screen, flag it for removal
+		--having no buffer from the edge created strange behavior and prevented clutch grabs
+		if powers.y > (VIRTUAL_HEIGHT + powers.height) then
+			powers.live = false
 		end
-	--end
+	end
+
 
 
 	if love.keyboard.wasPressed('escape') then

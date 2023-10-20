@@ -43,6 +43,10 @@ function ServeState:update(dt)
 		})
 	end
 
+	for k, brick in pairs(self.bricks) do
+		brick:update(dt)
+	end
+
 	if love.keyboard.wasPressed('escape') then
 		love.event.quit()
 	end
@@ -56,6 +60,11 @@ function ServeState:render()
 
 	for k, brick in pairs(self.bricks) do
 		brick:render()
+	end
+
+	--added particle rendering for bricks to keep them from freezing during a transition
+	for k, bricks in pairs(self.bricks) do
+		bricks:renderParticles()
 	end
 
 	renderScore(self.score)
